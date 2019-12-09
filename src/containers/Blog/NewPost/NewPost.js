@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './NewPost.css';
+import { Redirect } from 'react-router-dom';
 
 class NewPost extends Component {
     state = {
         title: '',
         body: '',
-        author: 'Max'
+        author: 'Max',
+        submitted: false
+    }
+
+    componentDidMount() {
+        // this.props.history.replace('/posts');   
     }
 
     postDataHandler = () => {
@@ -16,12 +22,13 @@ class NewPost extends Component {
             author: this.state.author
         }
         axios.post('/posts', data)
-        .then(response => console.log(response));
+        .then(response => this.props.history.replace('/posts'));
     }
 
     render () {
         return (
             <div className="NewPost">
+                {/* {this.state.submitted && <Redirect to='/posts' />} */}
                 <h1>Add a Post</h1>
                 <label>Title</label>
                 <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
@@ -39,3 +46,6 @@ class NewPost extends Component {
 }
 
 export default NewPost;
+
+//Redirect sehifeni deyisir ona gore de arxaya qayitmaq olmur. eyni zamanda this.props.history.replace() de.
+//this.props.history.push ise sehifeni yonlendirir ona gore de arxaya qayitmaq olur.
